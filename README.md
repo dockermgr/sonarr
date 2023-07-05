@@ -27,10 +27,13 @@ docker run -d \
 --privileged \
 --name casjaysdevdocker-sonarr \
 --hostname sonarr \
+-e PUID=1000 \
+-e PGID=1000 \
 -e TZ=${TIMEZONE:-America/New_York} \
--v $HOME/.local/share/srv/docker/casjaysdevdocker-sonarr/rootfs/data:/data:z \
+-v /mnt/tv:/tv:z \
+-v /mnt/downloads:/downloads:z \
 -v $HOME/.local/share/srv/docker/casjaysdevdocker-sonarr/rootfs/config:/config:z \
--p 80:80 \
+-p 0.0.0.0:8989:8989 \
 casjaysdevdocker/sonarr:latest
 ```
   
@@ -45,11 +48,14 @@ services:
     environment:
       - TZ=America/New_York
       - HOSTNAME=sonarr
+      - PUID=1000
+      - PGID=1000
     volumes:
-      - $HOME/.local/share/srv/docker/casjaysdevdocker-sonarr/rootfs/data:/data:z
+      - /mnt/tv:/tv:z
+      - /mnt/downloads:/downloads:z
       - $HOME/.local/share/srv/docker/casjaysdevdocker-sonarr/rootfs/config:/config:z
     ports:
-      - 80:80
+      - 0.0.0.0:8989:8989
     restart: always
 ```
   
